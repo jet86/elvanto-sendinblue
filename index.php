@@ -1,3 +1,4 @@
 <?PHP
-	 echo "Hello, world.";
+	include ("config.php");
+	echo "Hello, world.";
 ?>
