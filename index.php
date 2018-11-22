@@ -1,4 +1,8 @@
 <?PHP
+	// Load Elvanto API wrapper
+	require_once('Elvanto_API.php');
+	$elvanto = new Elvanto_API();
+
 	// Set static parameters
 	$elvantoScope = "ManagePeople,ManageGroups";
 	
@@ -18,6 +22,11 @@
 		die();
 	}
 	
-	//
-	//
+	// Authorize Elvanto
+	$authorize_url = $elvanto->authorize_url(
+	$elvantoClientID,
+	$elvantoRedirectURI,
+	$elvantoScope,
+	'stateData'
+	);
 ?>
