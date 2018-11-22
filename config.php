@@ -1,6 +1,17 @@
 <?PHP
-	$elvantoAPIKey = "";
+	// Elvanto Connection Parameters
+	$elvantoClientID = "";
+	$elvantoClientSecret = "";
+	$elvantoRedirectURI = "";
+	
+	// Elvanto Configuration Parameters
+	//
+	
+	// Send In Blue Connection Parameters
 	$sendinblueAPIKey = "";
+	
+	// Send In Blue Configuration Parameters
+	//
 
 	// Set the authentication mode for accessing the sync page
 	// 0 = No authentication required
