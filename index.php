@@ -1,4 +1,7 @@
-<?PHP
+<?php
+	ini_set('display_errors', 1);
+	error_reporting(E_ALL);
+
 	// Load Elvanto API wrapper
 	require_once('Elvanto_API.php');
 	$elvanto = new Elvanto_API();
@@ -7,17 +10,17 @@
 	$elvantoScope = "ManagePeople,ManageGroups";
 	
 	// Load dynamic/config parameters
-	if include("local_config.php")
+	if(include("local_config.php"))
 	{
-		echo "Local config file included.";
+		echo "Local config file included.<br>\n";
 	}
-	elseif include("config.php")
+	elseif(include("config.php"))
 	{
-		echo "Config file included.";
+		echo "Config file included.<br>\n";
 	}
 	else
 	{
-		echo "Config file not found.";
+		echo "Config file not found.<br>\n";
 		// Do something here
 		die();
 	}
@@ -29,4 +32,6 @@
 	$elvantoScope,
 	'stateData'
 	);
+
+	echo $authorize_url;
 ?>
