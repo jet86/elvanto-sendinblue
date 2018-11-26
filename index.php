@@ -25,13 +25,18 @@
 		die();
 	}
 	
-	// Authorize Elvanto
-	$authorize_url = $elvanto->authorize_url(
-	$elvantoClientID,
-	$elvantoRedirectURI,
-	$elvantoScope,
-	'stateData'
-	);
+	if(!($_GET['state'] == 'didAuth' && $_GET['code']))
+	{
+		// Authorize Elvanto
+		$authorize_url = $elvanto->authorize_url(
+		$elvantoClientID,
+		$elvantoRedirectURI,
+		$elvantoScope,
+		'didAuth'
+		);
 
-	echo $authorize_url;
+		echo "<a href='$authorize_url' target='_blank'>$authorize_url</a>";
+	}
+
+	echo $_GET['code'];
 ?>
