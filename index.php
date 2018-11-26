@@ -1,5 +1,5 @@
 <?php
-	/**/ // Only enable during development!
+	/**-/ // Only enable during development!
 	ini_set('display_errors', 1);
 	error_reporting(E_ALL);
 	/**/
@@ -63,11 +63,6 @@
 			$_SESSION['elvantoAccessToken'] = $result->access_token;
 			$_SESSION['elvantoAccessExpires'] = $result->expires_in;
 			$_SESSION['elvantoAccessRefresh'] = $result->refresh_token;
-
-			echo "I got here.<br>\n";
-			echo $_SESSION['elvantoAccessToken'] . " <br>\n";
-			echo $_SESSION['elvantoAccessExpires'] . " <br>\n";
-			echo $_SESSION['elvantoAccessRefresh'] . " <br>\n";
 
 			header("Location: $elvantoRedirectURI");
 			die();
