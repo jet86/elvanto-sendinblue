@@ -1,22 +1,30 @@
 <?php
+	/**/ // Only enable during development!
 	ini_set('display_errors', 1);
 	error_reporting(E_ALL);
+	/**/
+
+	// Start or resume the PHP session
+	session_start();
 
 	// Load Elvanto API wrapper
 	require_once('Elvanto_API.php');
-	$elvanto = new Elvanto_API();
 
-	// Set static parameters
+	// Set "constant" parameters
 	$elvantoScope = "ManagePeople,ManageGroups";
-	
+
+	// Setup some variables
+	$configLocalLoaded = false;
+	$configLoaded = false;
+
 	// Load dynamic/config parameters
 	if(include("local_config.php"))
 	{
-		echo "Local config file included.<br>\n";
+		$configLocalLoaded = true;
 	}
 	elseif(include("config.php"))
 	{
-		echo "Config file included.<br>\n";
+		$configLoaded = true;
 	}
 	else
 	{
@@ -24,19 +32,58 @@
 		// Do something here
 		die();
 	}
-	
-	if(!($_GET['state'] == 'didAuth' && $_GET['code']))
+
+	if(!($_SESSION['elvantoAccessToken'] && $_SESSION['elvantoAccessExpires'] && $_SESSION['elvantoAccessRefresh']))
 	{
-		// Authorize Elvanto
-		$authorize_url = $elvanto->authorize_url(
-		$elvantoClientID,
-		$elvantoRedirectURI,
-		$elvantoScope,
-		'didAuth'
-		);
+		$elvanto = new Elvanto_API();
+		if(!($_GET['state'] == 'didAuth' && $_GET['code']))
+		{
+			// Authorize Elvanto
+			$authorize_url = $elvanto->authorize_url(
+			$elvantoClientID,
+			$elvantoRedirectURI,
+			$elvantoScope,
+			'didAuth'
+			);
 
-		echo "<a href='$authorize_url' target='_blank'>$authorize_url</a>";
+			//
+			header("Location: $authorize_url");
+			die();
+		}
+		else
+		{
+			// Exchange user code for access token
+			$result = $elvanto->exchange_token(
+				$elvantoClientID,
+				$elvantoClientSecret,
+				$elvantoRedirectURI,
+				$_GET['code'] // Get the code parameter from the query string.
+			);
+
+			$_SESSION['elvantoAccessToken'] = $result->access_token;
+			$_SESSION['elvantoAccessExpires'] = $result->expires_in;
+			$_SESSION['elvantoAccessRefresh'] = $result->refresh_token;
+
+			echo "I got here.<br>\n";
+			echo $_SESSION['elvantoAccessToken'] . " <br>\n";
+			echo $_SESSION['elvantoAccessExpires'] . " <br>\n";
+			echo $_SESSION['elvantoAccessRefresh'] . " <br>\n";
+
+			header("Location: $elvantoRedirectURI");
+			die();
+		}
 	}
+	else
+	{
+		// Setup connection with auth details
+		$auth_details = array(
+			'access_token' => $_SESSION['elvantoAccessToken'],
+			'refresh_token' => $_SESSION['elvantoAccessRefresh']
+		);
+		$elvanto = new Elvanto_API($auth_details);
 
-	echo $_GET['code'];
+		// Do stuff here
+		$results = $elvanto->call('people/getAll');
+		var_dump($results);
+	}
 ?>
