@@ -77,7 +77,6 @@
 		);
 		$elvanto = new Elvanto_API($auth_details);
 
-		// Do stuff here
 		include("header.php");
 
 		if($_GET['nav'] == "")
@@ -86,16 +85,58 @@
 		}
 		elseif($_GET['nav'] == "elvanto")
                 {
-                        echo '<h1 class="mt-5 text-center">Elvanto Groups</h1>';
+                        echo '<h1 class="mt-5 text-center">Elvanto Groups</h1>' . "\n";
+			echo '  <div class="accordion" id="elvantoGroups">' . "\n";
+			$elvantoGroupCount = 1;
 			foreach($elvantoGroupIDs as $elvantoGroupID)
 			{
 				// Traverse the Group IDs array
 				$results = $elvanto->call('groups/getInfo', array('id'=>$elvantoGroupID, 'fields'=>array('people')));
+				$elvantoGroup = $results->group[0];
 
+				echo '    <div class="card">' . "\n" . '      <div class="card-header" id="heading' . $elvantoGroupCount;
+				echo '"><h5 class="mb-0">';
+				echo '<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse' . $elvantoGroupCount;
+				echo '" aria-expanded="false" aria-controls="collapse' . $elvantoGroupCount . '">';
+
+				echo $elvantoGroup->name . "</button></h5></div>\n";
+
+				echo '      <div id="collapse' . $elvantoGroupCount;
+				echo '" class="collapse" aria-labelledby="heading' . $elvantoGroupCount;
+				echo '" data-parent="#elvantoGroups">' . "\n" . '        <div class="card-body">' . "\n";
+
+				$elvantoGroupMembers = $elvantoGroup->people->person;
+				$elvantoGroupMemberCount = 0;
+
+				// setup table
+				echo '          <table class="table table-sm table-hover">';
+				echo '<thead><tr><td>Name</td><td>Email</td></tr></thead>';
+				echo '<tbody>' . "\n";
+
+				foreach($elvantoGroupMembers as $elvantoGroupMember)
+				{
+					if($elvantoGroupMember->email)
+					{
+						// Populate row with basic member info
+						echo '            <tr><td>' . $elvantoGroupMember->firstname . ' ' . $elvantoGroupMember->lastname . '</td>';
+						echo '<td>' . $elvantoGroupMember->email . "</td></tr>\n";
+						$elvantoGroupMemberCount++;
+					}
+				}
+
+				echo '          </tbody></table>';
+				echo "$elvantoGroupMemberCount members\n";
+				echo "        </div>\n      </div>\n    </div>\n";
+
+				$elvantoGroupCount++;
+
+				/**-/
 				echo "<pre>";
-				var_dump($results);
-				echo "</pre>";
+				var_dump($elvantoGroupMembers);
+				echo "</pre><br><br>";
+				/**/
 			}
+			echo "</div>\n";
 			// List basic details of all groups
                 }
 		else
