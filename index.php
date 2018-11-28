@@ -87,10 +87,21 @@
 		elseif($_GET['nav'] == "elvanto")
                 {
                         echo '<h1 class="mt-5 text-center">Elvanto Groups</h1>';
+			foreach($elvantoGroupIDs as $elvantoGroupID)
+			{
+				// Traverse the Group IDs array
+				$results = $elvanto->call('groups/getInfo', array('id'=>$elvantoGroupID, 'fields'=>array('people')));
+
+				echo "<pre>";
+				var_dump($results);
+				echo "</pre>";
+			}
+			// List basic details of all groups
                 }
 		else
 		{
                         echo '<h1 class="mt-5 text-center">Page Does Not Exist</h1>';
+			echo '<p class="lead text-center">Please use the navigation bar above to find the correct page.</p>';
 		}
 
 //		$results = $elvanto->call('people/getAll');
