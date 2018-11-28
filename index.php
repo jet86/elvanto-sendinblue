@@ -78,7 +78,28 @@
 		$elvanto = new Elvanto_API($auth_details);
 
 		// Do stuff here
-		$results = $elvanto->call('people/getAll');
-		var_dump($results);
+		include("header.php");
+
+		if($_GET['nav'] == "")
+		{
+			echo '<h1 class="mt-5 text-center">Elvanto to Send In Blue one-click sync</h1>';
+		}
+		elseif($_GET['nav'] == "elvanto")
+                {
+                        echo '<h1 class="mt-5 text-center">Elvanto Groups</h1>';
+                }
+		else
+		{
+                        echo '<h1 class="mt-5 text-center">Page Does Not Exist</h1>';
+		}
+
+//		$results = $elvanto->call('people/getAll');
+//		$results = $elvanto->call('groups/getAll');
+//		$results = $elvanto->call('groups/getInfo', array('id'=>'1234', 'fields'=>array('people')));
+//		echo "<pre>";
+//		var_dump($results);
+//		echo "</pre>";
+
+		include("footer.php");
 	}
 ?>
