@@ -1,4 +1,10 @@
 <?PHP
+	// Administrator Details
+	// Fill in the contact name and email and/or phone for the person managing this installation and config
+	$adminName = "";
+	$adminEmail = "";
+	$adminPhone = "";
+
 	// Elvanto Connection Parameters
 	$elvantoClientID = "";
 	$elvantoClientSecret = "";
