@@ -11,6 +11,8 @@
 	require_once('Elvanto_API.php');
 
 	// Set "constant" parameters
+	$esibVersion = "0.1.0";
+	$expectedConfigVersion = "1";
 	$elvantoScope = "ManagePeople,ManageGroups";
 
 	// Setup some variables
@@ -25,6 +27,12 @@
 	elseif(include("config.php"))
 	{
 		$configLoaded = true;
+	}
+	elseif($configVersion != $expectedConfigVersion)
+	{
+		echo "Config version mismatch.<br>\n";
+		// Do something here
+		die();
 	}
 	else
 	{
