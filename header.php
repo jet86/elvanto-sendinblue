@@ -27,22 +27,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item<?php echo ($_GET['nav'] == "" ? ' active' : ''); ?>">
               <a class="nav-link" href=".">Sync
-                <span class="sr-only">(current)</span>
+                <?php echo ($_GET['nav'] == "" ? '<span class="sr-only">(current)</span>' : ''); ?>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?nav=preview">Preview</a>
+            <li class="nav-item<?php echo ($_GET['nav'] == "preview" ? ' active' : ''); ?>">
+              <a class="nav-link" href="?nav=preview">Preview
+                <?php echo ($_GET['nav'] == "preview" ? '<span class="sr-only">(current)</span>' : ''); ?>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?nav=elvanto">Elvanto</a>
+            <li class="nav-item<?php echo ($_GET['nav'] == "elvanto" ? ' active' : ''); ?>">
+              <a class="nav-link" href="?nav=elvanto">Elvanto
+                <?php echo ($_GET['nav'] == "elvanto" ? '<span class="sr-only">(current)</span>' : ''); ?>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?nav=sendinblue">Send In Blue</a>
+            <li class="nav-item<?php echo ($_GET['nav'] == "sendinblue" ? ' active' : ''); ?>">
+              <a class="nav-link" href="?nav=sendinblue">Send In Blue
+                <?php echo ($_GET['nav'] == "sendinblue" ? '<span class="sr-only">(current)</span>' : ''); ?>
+              </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?nav=settings">Settings</a>
+            <li class="nav-item<?php echo ($_GET['nav'] == "settings" ? ' active' : ''); ?>">
+              <a class="nav-link" href="?nav=settings">Settings
+                <?php echo ($_GET['nav'] == "settings" ? '<span class="sr-only">(current)</span>' : ''); ?>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="logout.php">Logout</a>
